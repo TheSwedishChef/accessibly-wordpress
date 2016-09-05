@@ -1,0 +1,215 @@
+<!doctype html>
+<html class="no-js" lang="">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" href="apple-touch-icon.png"><link href="https://fonts.googleapis.com/css?family=Permanent+Marker|Lato:300,400,700|Source+Code+Pro|Vollkorn:400,700" rel="stylesheet">
+    <!-- Place favicon.ico in the root directory -->
+
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <script src="js/vendor/modernizr-2.8.3.min.js"></script>
+  </head>
+  <body class="dark">
+    <!--[if lt IE 8]>
+        <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <span id="brightness">
+      <i class="fa fa-sun-o"></i>
+      <i class="fa fa-moon-o active"></i>
+    </span>
+
+    <nav class="open">
+      <ol>
+        <li>
+          <a href="http://chrislorensson.com" class="title" role="banner">Chris Lorensson</a>
+          <ol>
+            <li><a href="#"><i class="fa fa-angle-right"></i> I'm leaving Sketch + InVision for HTML+CSS+jQuery</a></li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> Being 'Design Led' and Prototypes</a></li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> White-Labelling UX &amp; Implementation</a></li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> WordPress Content Strategy &amp; Automation</a></li>
+            <li class="ui-state-active">
+              <a href="#1"><i class="fa fa-angle-down"></i> Word-flow on the Web</a>
+              <ol>
+                <li><a href="#2">1. The Problems</a>
+                  <ol>
+                    <li><a href="#2.1">1.1 Widows &amp; orphans</a></li>
+                    <li><a href="#2.2">1.2 En-dash &amp; Em-dash</a></li>
+                    <li><a href="#2.3">1.3 Readability</a></li>
+                  </ol>
+                </li>
+                <li><a href="#3">2. The Solutions</a>
+                  <ol>
+                    <li><a href="#3.1">2.1 Non-breaking space</a></li>
+                    <li><a href="#3.2">2.2 CSS white-space</a></li>
+                    <li><a href="#3.3">2.3 Line length &amp; Ragging</a></li>
+                  </ol>
+                </li>
+                <li><a href="#4">3. Questions</a>
+                  <ol>
+                    <li><a href="#4.1">3.1 Why I don't use these</a></li>
+                    <li><a href="#4.2">3.2 Compared to print software</a></li>
+                    <li><a href="#4.3">3.3 Why not use <code>&lt;pre&gt;</code>?</a></li>
+                  </ol>
+                </li>
+                <li><a href="#5">4. Summary: The flow concept</a></li>
+              </ol>
+            </li>
+            <li><a href="#"><i class="fa fa-angle-right"></i> Designing Usable and Accessible Buttons</a></li>
+          </ol>
+        </li>
+      </ol>
+    </nav>
+
+    <article role="main" id="1">
+      <header>
+        <h1>Word-flow on the&nbsp;Web</h1>
+        <p class="subtitle">Managing widows, orphans, ragging, line-breaks and readability online hasn't historically been as easy as in-print. Here's how I implement my print-design background into text on the web. For the record, I will be ignoring hacks such as <code>&lt;WBR&gt;</code> and <code>&amp;#8203;</code> tags because they're not future-proof — I don't want to go back and painstakingly change my markup later — this has to work forever. And CSS orphans and widows — according to the spec, sadly — are only for use in 'paged' content, such as <code>@media</code> print, so I'll be ignoring those&nbsp;too.</p>
+      </header>
+
+      <section id="2">
+        <header>
+          <h2>The Problems</h2>
+          <p class="subtitle">First, we'll examine each problem one at a time. Widows and orphans are just the beginning — we will dive into line-lengths and 'ragging' for a more whole look at&nbsp;readability.</p>
+        </header>
+
+        <section id="2.1">
+          <header>
+            <h3>Widows &amp; orphans</h3>
+          </header>
+          <p><h4>Wikipedia defines a widow&nbsp;thusly:</h4></p>
+          <blockquote>"A paragraph-ending line that falls at the beginning of the following page or column, thus separated from the rest of the&nbsp;text."</blockquote>
+          <p><h4>Wikipedia defines an orphan&nbsp;thusly:</h4></p>
+          <blockquote>"A paragraph-opening line that appears by itself at the bottom of a page or&nbsp;column."</blockquote>
+          <blockquote>"A word, part of a word, or very short line that appears by itself at the end of a paragraph. Orphans result in too much white space between paragraphs or at the bottom of a&nbsp;page."</blockquote>
+        </section>
+
+        <section id="2.2">
+          <header>
+            <h3>En-dash &amp; Em-dash</h3>
+          </header>
+          <p>
+            In my opinion, there's nothing uglier than an <code>&amp;mdash;</code> or <code>&amp;ndash;</code> preceding the last word on a line — kinda<br>
+            like this.
+          </p>
+          <p>
+            I prefer to use <code>&amp;nbsp;</code> and .nowrap to set guidelines for how these areas are allowed to wrap. Again, it's a personal preference, but I think that 'padding' <code>&amp;mdash;</code> and <code>&amp;ndash;</code> with a word or two makes readability flow better. That's why I typically disallow them from only having a single word preceding or succeeding them in a sentence. This goes for other less common punctuations which tend to start or finish a sentence or phrase, such as <code>&amp;hellip;</code> (ellipses). Personally, I don't mind if an <code>&amp;mdash;</code> or <code>&amp;hellip;</code> end a line, but I don't like when there's a single word succeeding or preceding them on a line… so I'll put an <code>&amp;nbsp;</code> between the two succeeding and preceding&nbsp;words.
+          </p>
+        </section>
+
+        <section id="2.3">
+          <header>
+            <h3>Readability</h3>
+          </header>
+          <p>This is a little more ethereal, and open to personal taste and preference. I'll talk through my own preferences, and how I code HTML text to make them&nbsp;happen.</p>
+          <p>Readability is the cumulative effect of how words (and their ideas), line-length, line-breaks, font and general typography interplay to create an overall&nbsp;experience.</p>
+          <p>This is why I keep saying that a lot of these things are subjective — they depend upon the ideas being conveyed in the text, the general 'feel' of the flow and the typographical specifics being employed. When in doubt, use your intuition, and play a lot. The best way to 'break' your text flow is to change the container size (which will affect each line's character count) and see what happens. Fix whatever you don't&nbsp;like.</p>
+        </section>
+      </section>
+
+      <section id="3">
+        <header>
+          <h2>The Solutions</h2>
+          <p class="subtitle">Here are the short, simple and future-proof solutions that I use when hand-crafting text on the web.</p>
+        </header>
+
+        <section id="3.1">
+          <header>
+            <h3>Non-breaking space</h3>
+          </header>
+          <p>Oh the glorious <code>&amp;nbsp;</code> — it is the single most useful character entity when controlling readability on the web. We would all do well to get to know it&nbsp;better.</p>
+          <p>Traditionally for those bothering to control their web typography, people have used <code>&amp;nbsp;</code> between the last two words at the end of each sentence to prevent orphans. For me personally, I hate word hyphenation in-general. I think it adversely affects readability, so I put <code>&amp;nbsp;</code>s between both the last two words in a sentence, as well as the first two. This prevents a sentence starting with a single word on a single line, and in my opinion, improves&nbsp;readability.</p>
+          <p>Here's an example of how this sentence is&nbsp;coded:</p>
+          <code class="block">Here's&amp;nbsp;an example of how this sentence is&amp;nbsp;coded:</code>
+        </section>
+
+        <section id="3.2">
+          <header>
+            <h3>CSS white-space</h3>
+          </header>
+          <p>The CSS white-space property is your friend. Why not just use <code>&amp;nbsp;</code>? Because of hyphens; while old Windows specifications had a character for non-breaking-hyphens, it's thing of the past, and there is no modern equivalent. Because of <code>&amp;nbsp;</code>, there are specific cases when a CSS class should be used, and sparingly. In my opinion, the two legitimate use-cases for a specific CSS class are the following&nbsp;scenarios:</p>
+          <ul>
+            <li>A hyphenated word ends a&nbsp;sentence</li>
+            <li>You don't want a specific hyphenated word to ever be at a <span class="nowrap">line-break</span></li>
+          </ul>
+          <p>Personally, I don't like to ever allow hyphenated words to line-break. Here's an example of how I've coded the previous&nbsp;sentence:</p>
+          <code class="block">Personally,&amp;nbsp;I don't like to ever allow hyphenated words to &lt;span class="nowrap"&gt;line-break&lt;/span&gt;.</code>
+          <p>My CSS class looks like this:</p>
+          <code class="block">.nowrap { white-space: nowrap }</code>
+          <p>Notice that I didn't put an <code>&amp;nbsp;</code> between "to" and "line-break". In my opinion, it doesn't look strange or adversely affect readability to have just the hyphenated word "line-break" as (technically) an orphan — because it is comprised of two words. However, if the hyphenated word was, for example, "so-so", then I might be inclined to add that preceding <code>&amp;nbsp;</code> because "so-so" is quite short.</p>
+        </section>
+
+        <section id="3.3">
+          <header>
+            <h3>Line length &amp; Ragging</h3>
+          </header>
+          <p>As perhaps the most important rule of readability, line lengths should be around 55 characters (including spaces), with a +/- of 10 depending upon your font, line-height and other typographical attributes. When designing for web nowadays, this is not as easy as it sounds — you need to watch for how mobile browsers are automatically resizing your text. Use a 'reset' stylesheet such as normalize.css to level the playing field, and then CSS <code>@media</code> queries to adjust for mobile browsers.</p>
+          <p>Most of the time, it's simply a case of watching the container width of a paragraph (or other block of text) to roughly control character count on a given line. But sometimes it's more complicated — such as in the case of a 'responsive' website which changes the size of containers according to screen real-estate.</p>
+          <p>Ragging is a lesser-known term in the web industry that comes from print design. It refers to the aesthetic balance of line endings, and how they interplay in a single paragraph. Generally-speaking, print designers want an aesthetic balance from line-to-line so that there aren't jarring white-spaces on the right of each paragraph (assuming your paragraphs are left-aligned).</p>
+          <p>Ragging is more difficult to control in web (compared to print) because in web, we're forced to hand-craft each line of HTML code in order to get the result we want, whereas in print design, common software like Adobe InDesign is arguably smarter in how styles can be applied globally. While CSS is supposed to let us do this, it's not there yet, and the few attributes we do have access to are not yet widely implemented.</p>
+        </section>
+      </section>
+
+      <section id="4">
+        <header>
+          <h2>Questions</h2>
+          <p class="subtitle">A few relevant CSS attributes have been added to the spec since CSS2. These properties are:</p>
+          <code class="block">hyphens: none | manual | auto
+word-wrap: normal | break-word | initial | inherit
+word-break: normal | break-all | keep-all | initial | inherit
+&lt;pre&gt;These lines will be pre-formatted&lt;/pre&gt;.</code>
+        </header>
+
+        <section id="4.1">
+          <header>
+            <h3>Why I don't use these</h3>
+          </header>
+          <p>I've experimented with these extensively, and unfortunately my outcome is that browser support and consistent implementation just isn't there enough to use them reliably, yet. But due to my own personal preferences of typography, I don't even need them. It would be nice to not have to use <code>&amp;nbsp;</code> and my <code>.nowrap</code> class everywhere, but at least I know those are going to remain consistently implemented.</p>
+
+          <section id="4.2">
+            <header>
+              <h3>Compared to print software</h3>
+            </header>
+            <p>For ragging, it's interesting to note features such as balance ragged lines (Adobe InDesign) in print software which performs some magic to improve ragging. In the web world, we don't have a standard equivalent without resorting to javascript. The only 3rd-party implementation I've ever used is Shaun Inman's Widon't WordPress plugin. While this was a great solution to lessen the frequency of widows, it doesn't allow for the type of fine-grain typographical control I'm accustomed to from my print days. Until these newer CSS attributes are consistently implemented across browser, I'll continue with the scheme I describe above.</p>
+          </section>
+
+          <section id="4.3">
+            <header>
+              <h3>Why not use <code>&lt;pre&gt;</code>?</h3>
+            </header>
+            <p>I don't use <code>&lt;pre&gt;</code> (as opposed to <code>.nowrap</code>) because most browsers have default styling for it — it has overgrown its' original use. 99% of the time I don't want any of that styling, and there's no use in battling the browser for it. In my opinion, a CSS class is a more semantic way to accomplish this task.</p>
+          </section>
+        </section>
+
+        <section id="5">
+          <header>
+            <h2>Summary: The flow concept</h2>
+          </header>
+          <p>The general idea is that you want to picture the flow of text in your head as you code&hellip; and this takes a little getting used to. As you code, think about where you want line-breaks to happen, and where you don't. Like in the above paragraph example, notice that I put an <code>&amp;nbsp;</code> in-between "lazy" and "dog" right before my <code>&amp;hellip;</code> — I decided I didn't want a line-break right there, because the flow of readability might be affected.
+          <p>While you can get away with just implementing the rules described above, the best readability on the web will come from a combination of rules and intuition — just like all the best book layouts. Don't think about what your text looks like when you're viewing it, but rather know that the layout will change from device to device. This means you're only controlling flow.</p>
+        </section>
+      </section>
+      <footer>&copy;Copyright 2016 Chris Lorensson.</footer>
+    </article>
+
+    <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+    <script src="js/plugins.js"></script>
+    <script src="js/main.js"></script>
+
+    <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+    <script>
+        (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+        function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+        e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+        e.src='https://www.google-analytics.com/analytics.js';
+        r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+        ga('create','UA-XXXXX-X','auto');ga('send','pageview');
+    </script>
+  </body>
+</html>
